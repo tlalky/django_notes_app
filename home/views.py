@@ -7,11 +7,16 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect
+from django.utils.timezone import now
 
 
 class HomeView(TemplateView):
     template_name = 'home/welcome.html'
-    extra_context = {'today': datetime.today()}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['today'] = now()
+        return context
 
 
 class AuthorizedView(LoginRequiredMixin, TemplateView):
